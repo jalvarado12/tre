@@ -1,0 +1,102 @@
+create table Empleados 
+	(id integer,
+	 primer_nombre character varying (50) not null,
+	 primer_apellido character varying (50) not null,
+	 genero char(1) not null,
+	 email character varying (50) not null,
+	 salario integer,
+	 cod_depto integer,
+	 primary key(id)
+	);
+	
+INSERT INTO Empleados VALUES(10,'Diana','Linares','F','diana_linares@gmail.com',2000000,2);
+INSERT INTO Empleados VALUES(11,'Andres','Marin','M','andres_marin@gmail.com',5000000,2);
+INSERT INTO Empleados VALUES(12,'Jose','Perez','M','jose_perez@gmail.com',3000000,1);
+INSERT INTO Empleados VALUES(13,'Sandra','Mendieta','F','sandra_mendieta@gmail.com',4000000,1);
+INSERT INTO Empleados VALUES(14,'Diego','Hernandez','M','diego_hernandez@gmail.com',2000000,1);
+INSERT INTO Empleados VALUES(15,'Laura','Moreno','F','laura_moreno@gmail.com',3000000,2);
+INSERT INTO Empleados VALUES(16,'Maria','Alvarez','F','maria_alvarez@gmail.com',6000000,1);
+INSERT INTO Empleados VALUES(17,'Ana','Robledo','F','ana_robledo@gmail.com',2000000,1);
+INSERT INTO Empleados VALUES(18,'Pedro','Mendez','M','pedro_mendez@gmail.com',5000000,2);
+
+
+
+-- EJERCICIOS
+
+-- 1. Consultar el promedio, la suma, el máximo, mínimo y cantidad de salarios agrupados por géneros
+
+	select genero, avg(salario) as prom_salary, sum(salario) as suma,
+					max(salario) as maximo, min(salario) as minimo, count(salario)
+	from Empleados
+	group by genero
+
+-- 2. Consultar la suma de salarios de los empleados
+	select sum(salario) as suma,
+	from Empleados
+
+-- 3. Consultar la suma de salarios agrupando por códigos del departamento
+	select cod_depto, sum(salario)
+	from Empleados
+	group by cod_dept
+	
+-- 4. Consultar la suma de salarios agrupando por genero
+	select genero, sum(salario)
+	from Empleados
+	group by genero
+
+-- 5. Consultar la suma de salarios agrupando por código del departameante y por género
+	select cod_depto, genero, sum(salario)
+	from Empleados
+	group by cod_depto, genero
+	
+	
+	
+	
+--------------------------CON CLAUSULA GROUPING SETS -------------------------------------
+
+-- 5. Consultar la suma de salarios agrupando por código del departameante y por género
+SELECT cod_depto,genero,SUM(salario)
+FROM empleados
+GROUP BY
+	GROUPING SETS(
+		(cod_depto,genero),
+		(cod_depto),
+		(genero),
+		()
+	);
+
+
+SELECT 
+	cod_depto,
+	SUM(salario)
+FROM
+	empleados
+GROUP BY 
+	CUBE(cod_depto)
+ORDER BY
+	cod_depto;
+
+
+
+-----------------------------------------------------------------
+
+
+create table ciudad(
+    nombre varchar not null,
+    genero char(1),
+	num_habitantes integer
+);
+
+insert into ciudad values('Bogotá','M',3747944);
+insert into ciudad values('Bogotá','F',3433604);
+insert into ciudad values('Paris', 'M',3271734);
+insert into ciudad values('Paris', 'F',3264123);
+insert into ciudad values('Medellin','M',242312);
+insert into ciudad values('Medellin','M',2114003);
+insert into ciudad values('Pekin','F',1241236);
+insert into ciudad values('Brasil','M',105291292);	
+insert into ciudad values('Brasil','F',109034931);
+insert into ciudad values('China','M',721140373);
+insert into ciudad values('China','F',412360000);
+insert into ciudad values('Miami','M',2761581);
+insert into ciudad values('Miami','M',27615861);

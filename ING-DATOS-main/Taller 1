@@ -1,0 +1,53 @@
+CREATE TABLE actor(
+	id int,
+	nombre varchar(30) not null,
+	genero varchar(10),
+	fecha_nacimiento date,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE productor(
+	codigo int,
+	nombre varchar(30) not null,
+	PRIMARY KEY(codigo)
+);
+
+CREATE TABLE pelicula(
+	codigo int,
+	titulo varchar(30) not null,
+	estudio int,
+	año int,
+	duracion int,
+	genero varchar(30),
+	presupuesto numeric(10,2),
+	PRIMARY KEY(codigo)
+);
+
+CREATE TABLE producir(
+	codigo_pelicula int,
+	codigo_productor int,
+	PRIMARY KEY(codigo_pelicula,codigo_productor),
+	FOREIGN KEY(codigo_pelicula)
+		REFERENCES pelicula(codigo),
+	FOREIGN KEY(codigo_productor)
+		REFERENCES productor(codigo)		
+);
+
+CREATE TABLE trailer(
+	codigo int,
+	duracion int,
+	codigo_pelicula int,
+	PRIMARY KEY(codigo,codigo_pelicula),
+	FOREIGN KEY(codigo_pelicula)
+		REFERENCES pelicula(codigo)
+);
+
+CREATE TABLE protagonizar(
+	codigo_pelicula int,
+	id_actor int,
+	PRIMARY KEY(codigo_pelicula,id_actor),
+	FOREIGN KEY(codigo_pelicula)
+		REFERENCES pelicula(codigo),
+	FOREIGN KEY(actor_id)
+		REFERENCES actor(id)		
+);

@@ -1,0 +1,15 @@
+
+SELECT *  FROM ventas;
+
+CREATE EXTENSION tablefunc;
+
+SELECT item_name,color,sum(quantity)
+from VENTAS
+group by item_name, color
+order by 1,2;
+
+SELECT * FROM crosstab('SELECT item_name::text,color,sum(quantity)::numeric
+						from VENTAS
+						group by item_name, color
+						order by 1,2;')
+				AS datos_c (item_name text,dark numeric, pastel numeric,white numeric);

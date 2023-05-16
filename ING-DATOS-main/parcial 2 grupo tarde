@@ -1,0 +1,23 @@
+---1
+CREATE VIEW reservas AS
+SELECT h.*
+FROM huesped h join reserva r on (h.cedula = r.cedula_huesped)
+WHERE fecha_ingreso between '2023-01-01' AND '2023-02-15';
+---2
+SELECT h.nombre, h.telefono
+FROM hotel h left outer join reserva r on (h.nit = r.nit_hotel)
+WHERE nombre like 'm%';
+---3
+create domain date_restriction date
+constraint date_before check(value >= current_date);
+---4
+CREATE TYPE encuesta AS ENUM ('Si', 'No')
+ALTER TABLE reserva
+ADD COLUMN encuesta_satisfaccion encuesta;
+---5
+SELECT ad.nombre,h.nombre,r.fecha_ingreso,r.hora_ingreso
+FROM (administrador ad JOIN reserva r on (ad.cedula = r.cedula_administrador)) join hotel h on (h.nit = r.nit_hotel)
+WHERE r.numero_dias > 10;
+---6
+CREATE USER Administrador WITH PASSWORD 'admin*12';
+GRANT insert, update on reserva to Administrador;

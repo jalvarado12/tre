@@ -1,0 +1,105 @@
+CREate TABLE empleado(
+id int not null,
+nombre varchar(30) not null,
+cargo varchar(30) not null,
+salario real not null,
+PRIMARY KEY (id)
+);
+
+INSERT INTO empleado(id,nombre,cargo,salario)
+VALUES
+(1020, 'juan Rodriguez', 'Asesor',3500000),
+(1030, 'Diana', 'Jefe', 2500000),
+(1040, 'Jorge' ,'Jefe de Finanzas', 4500000),
+(1050, 'Sol', 'Jefe de Recursos Humanos',3500000);
+
+CREATE TABLE empleado_antiguo
+
+(
+
+    id integer NOT NULL,
+
+    nombre character varying(30) COLLATE pg_catalog."default" NOT NULL,
+
+    cargo character varying(50) COLLATE pg_catalog."default" NOT NULL,
+
+    salario real NOT NULL,
+
+    PRIMARY KEY (id)
+
+);
+
+ALTER TABLE empleado_antiguo ADD COLUMN usuario varchar(15);
+ALTER TABLE empleado_antiguo ADD COLUMN fecha_hora timestamp;
+
+SELECT now();
+SELECT USER;
+
+CREATE OR REPLACE FUNCTION emp_antiguo()
+	RETURNS trigger
+AS
+$$
+BEGIN
+INSERT INTO empleado_antiguo VALUES(OLD.id,OLD.nombre,OLD.cargo,OLD.salario,user,now());
+return OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER emp_antiguo_tr
+	AFTER DELETE
+	ON empleado
+	FOR EACH ROW
+	EXECUTE FUNCTION emp_antiguo();
+	
+SELECT * FROM empleado;
+SELECT * FROM empleado_antiguo;
+	
+DELETE FROM empleado WHERE id = 1040;
+
+CREATE OR REPLACE FUNCTION emp_id(i int)
+returns varchar
+AS
+$$
+	DECLARE
+		nombref varchar;
+	BEGIN
+		SELECT e.nombre INTO nombref
+		FROM empleado e
+		WHERE e.id = i;
+		RETURN nombref;
+	END;
+$$
+LANGUAGE plpgsql;
+
+SELECT emp_id(1020);
+
+CREATE OR REPLACE FUNCTION emp_id(i int)
+returns varchar
+AS
+$$
+	DECLARE
+		nombref varchar;
+	BEGIN
+		SELECT e.nombre INTO nombref
+		FROM empleado e
+		WHERE e.id = i;
+		RETURN nombref;
+	END;
+$$
+LANGUAGE plpgsql;
+
+SELECT emp_id(1020);
+
+------
+
+WITH RECURSIVE cursos AS (
+	SELECT course_id, prereq_id
+	FROM prereq
+	WHERE course_id = 'CS-399'
+  UNION ALL
+	SELECT p.prereq_id, c.course_id
+	FROM prereq p JOIN cursos c
+	ON p.course_id = c.prereq_id
+)
+select * from cursos;
