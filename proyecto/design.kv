@@ -1,0 +1,420 @@
+#: import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<ElementCard@MDCard>:
+    radius: '10dp'
+    spacing: '10dp'
+    padding: '10dp'
+    image: ''
+    text: ''
+    sub_text: ''
+    orientation: 'vertical'
+    ripple_behavior: True
+    on_release: 
+        app.root.transition = RiseInTransition()
+    Image:
+        source: root.image
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDLabel:
+            text: root.text
+            halign: 'center'
+        MDLabel:
+            text: root.sub_text
+            halign: 'center'
+
+<BotonAnimal@MDCard>:
+    radius: '10dp'
+    spacing: '10dp'
+    padding: '10dp'
+    image: ''
+    orientation: 'vertical'
+    ripple_behavior: True
+    on_release: 
+        app.root.transition = RiseInTransition()
+    Image:
+        source: root.image
+
+<CustomizeScreen@MDBoxLayout>:
+    orientation: 'vertical'
+    text: ''
+    padding: 100
+    MDLabel:
+        text: root.text
+        halign: 'center'
+        pos_hint: {'center_x': 0.5}
+    MDFillRoundFlatButton:
+        text: 'REGRESAR'
+        pos_hint: {'center_x': 0.5}
+        on_release: 
+            app.root.current = 'screen_principal'
+            app.root.transition = SlideTransition(direction='left')
+
+<BotonSuma@Button>:
+    font_size: 30
+    color: '#FFFFFF'
+    text: ''
+
+<ImageScreen@MDBoxLayout>:
+    orientation: 'vertical'
+    padding: 100
+    text: ''
+    Image:
+        source: 'reporte.png'
+        allow_stretch: True
+        keep_ratio: True
+    MDFillRoundFlatButton:
+        text: 'REGRESAR'
+        pos_hint: {'center_x': 0.5}
+        on_release: 
+            app.root.current = 'screen_principal'
+            app.root.transition = SlideTransition(direction='left')
+    
+    
+
+<BotonNumero@MDCard>:
+    radius: '10dp'
+    spacing: '10dp'
+    padding: '10dp'
+    text: ''
+    orientation: 'vertical'
+    ripple_behavior: True
+    md_bg_color: "#A2D9CE"
+    on_release: 
+        app.root.transition = RiseInTransition()
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDLabel:
+            text: root.text
+            halign: 'center'
+
+<ui>:
+    MDScreen:
+        name: 'screen_principal'
+        md_bg_color: 0, 0.5, 0.5, 1
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, .2
+                padding: '10dp'
+                MDCard:
+                    radius: '10dp'
+                    padding: '20dp'
+
+                    MDLabel:
+                        text: "APP DE CORNER"
+                        halign: 'center'
+                        pos_hint: {'center_y': 0.5}
+
+            MDGridLayout:
+                cols: 4
+                size_hint: 1, .8
+                padding: ['10dp', '10dp', '10dp', '10dp']
+                spacing: '10dp'
+
+                ElementCard:
+                    image: 'imagenes/colores.png'
+                    text: 'COLORES'
+                    sub_text: '1'
+                    on_release:
+                        root.current = 'screen_1'
+                
+                ElementCard:
+                    image: 'imagenes/suma.png'
+                    text: 'SUMA'
+                    sub_text: '2'
+                    on_release:
+                        root.current = 'screen_2'
+                
+                ElementCard:
+                    image: 'imagenes/abc.png'
+                    text: 'ABECEDARIO'
+                    sub_text: '3'
+                    on_release:
+                        root.current = 'screen_3'
+                
+                ElementCard:
+                    image: 'imagenes/rompecab.png'
+                    text: 'ROMPECABEZAS'
+                    sub_text: '4'
+                    on_release:
+                        root.current = 'screen_4'
+                
+                ElementCard:
+                    image: 'imagenes/figuras.png'
+                    text: 'FIGURAS'
+                    sub_text: '5'
+                    on_release:
+                        root.current = 'screen_5'
+                
+                ElementCard:
+                    image: 'imagenes/resta.png'
+                    text: 'RESTA'
+                    sub_text: '6'
+                    on_release:
+                        root.current = 'screen_6'
+
+                ElementCard:
+                    image: 'imagenes/animales.png'
+                    text: 'ANIMALES'
+                    sub_text: '7'
+                    on_release:
+                        root.current = 'screen_7'
+
+                ElementCard:
+                    image: 'imagenes/numeros.png'
+                    text: 'NÚMEROS'
+                    sub_text: '8'
+                    on_release:
+                        root.current = 'screen_8'
+
+
+    MDScreen:
+        name: 'screen_1'
+        CustomizeScreen:
+
+    MDScreen:
+        name: 'screen_2'
+        GridLayout:
+            rows: 8
+            padding: 5
+            spacing: 1
+            BoxLayout:
+                MDLabel:
+                    text: "Aquí aprenderás a sumar"
+                    halign: 'center'
+                    font_size: 40
+            BoxLayout:
+                spacing: 1
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Haz click aquí para generar una suma"
+                    on_press: suma.text = app.generar_suma()
+            BoxLayout:
+                MDLabel:
+                    id: suma
+                    text: ""
+                    halign: 'center'
+                    font_size: 80
+            BoxLayout:
+                MDLabel:
+                    text: "Haz click en el resultado de la suma:"
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                spacing: 1
+                BotonNumero:
+                    text: "0"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,0)
+                BotonNumero:
+                    text: "1"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,1)
+                BotonNumero:
+                    text: "2"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,2)
+                BotonNumero:
+                    text: "3"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,3)
+                BotonNumero:
+                    text: "4"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,4)
+            BoxLayout:
+                spacing: 1
+                BotonNumero:
+                    text: "5"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,5)
+                BotonNumero:
+                    text: "6"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,6)
+                BotonNumero:
+                    text: "7"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,7)
+                BotonNumero:
+                    text: "8"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,8)
+                BotonNumero:
+                    text: "9"
+                    on_press: respuesta_s.text = app.verificar_suma(suma.text,9)
+            BoxLayout:
+                spacing: 10
+                MDLabel:
+                    id: respuesta_s
+                    text: ""
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Regresar"
+                    on_release: 
+                        app.root.current = 'screen_principal'
+        
+    MDScreen:
+        name: 'screen_3'
+        CustomizeScreen:
+            text: 'Pantalla 3'
+
+    MDScreen:
+        name: 'screen_4'
+        CustomizeScreen:
+            text: 'Pantalla 4'
+
+    MDScreen:
+        name: 'screen_5'
+        ImageScreen:
+            text: 'Grafica'
+
+    MDScreen:
+        name: 'screen_6'
+        GridLayout:
+            rows: 8
+            padding: 5
+            spacing: 1
+            BoxLayout:
+                MDLabel:
+                    text: "Aquí aprenderás a restar"
+                    halign: 'center'
+                    font_size: 40
+            BoxLayout:
+                spacing: 1
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Haz click aquí para generar una resta"
+                    on_press: resta.text = app.generar_resta()
+            BoxLayout:
+                MDLabel:
+                    id: resta
+                    text: ""
+                    halign: 'center'
+                    font_size: 80
+            BoxLayout:
+                MDLabel:
+                    text: "Haz click en el resultado de la resta:"
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                spacing: 1
+                BotonNumero:
+                    text: "0"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,0)
+                BotonNumero:
+                    text: "1"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,1)
+                BotonNumero:
+                    text: "2"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,2)
+                BotonNumero:
+                    text: "3"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,3)
+                BotonNumero:
+                    text: "4"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,4)
+            BoxLayout:
+                spacing: 1
+                BotonNumero:
+                    text: "5"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,5)
+                BotonNumero:
+                    text: "6"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,6)
+                BotonNumero:
+                    text: "7"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,7)
+                BotonNumero:
+                    text: "8"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,8)
+                BotonNumero:
+                    text: "9"
+                    on_press: respuesta_r.text = app.verificar_resta(resta.text,9)
+            BoxLayout:
+                spacing: 10
+                MDLabel:
+                    id: respuesta_r
+                    text: ""
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Regresar"
+                    on_release: 
+                        app.root.current = 'screen_principal'
+
+    MDScreen:
+        name: 'screen_7'
+        GridLayout:
+            rows: 7
+            BoxLayout:
+                MDLabel:
+                    text: "Aquí aprenderás a distinguir animales"
+                    halign: 'center'
+                    font_size: 40
+            BoxLayout:
+                spacing: 1
+                ElementCard:
+                    id: animal
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Haz click aquí para reproducir el sonido de un animal"
+                    on_press:
+                        app.animal_escogido = app.escoger_animal()
+                        app.reproducir_sonido(app.animal_escogido)
+
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Repetir sonido"
+                    on_press: app.reproducir_sonido(app.animal_escogido)
+            BoxLayout:
+                MDLabel:
+                    text: "Qué animal escuchaste?"
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                BotonAnimal:
+                    image: 'imagenes/Gato.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"gato")
+                BotonAnimal:
+                    id: pato
+                    image: 'imagenes/Pato.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"pato")
+                BotonAnimal:
+                    id: leon
+                    image: 'imagenes/León.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"leon")
+            BoxLayout:
+                BotonAnimal:
+                    id: tigre
+                    image: 'imagenes/Tigre.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"tigre")
+                BotonAnimal:
+                    id: elefante
+                    image: 'imagenes/Elefante.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"elefante")
+                BotonAnimal:
+                    id: vaca
+                    image: 'imagenes/Vaca.png'
+                    on_release:
+                        respuesta.text = app.verificar_animal(app.animal_escogido,"vaca")
+            BoxLayout:
+                spacing: 10
+                MDLabel:
+                    id: respuesta
+                    text: ""
+                    halign: 'center'
+                    font_size: 30
+            BoxLayout:
+                ElementCard:
+                    line_color: (0.2, 0.2, 0.2, 0.8)
+                    text: "Regresar"
+                    on_release: 
+                        app.root.current = 'screen_principal'
+
+    MDScreen:
+        name: 'screen_8'
+        CustomizeScreen:
+            text: 'Pantalla 8'
